@@ -32,6 +32,6 @@ public class MyConfig {
      */
     @Bean
     public String baseSite(){
-        return "http://localhost:8080/s?l=";
+        return "http://s.yankaizhang.com/s?l=";
     }
 }

@@ -1,11 +1,14 @@
 package com.yankaizhang.link.controller;
 
+import com.yankaizhang.link.api.Result;
 import com.yankaizhang.link.service.impl.MyServiceImpl;
 import com.yankaizhang.spring.beans.factory.annotation.Autowired;
 import com.yankaizhang.spring.context.annotation.Controller;
 import com.yankaizhang.spring.util.StringUtils;
+import com.yankaizhang.spring.webmvc.annotation.RequestBody;
 import com.yankaizhang.spring.webmvc.annotation.RequestMapping;
 import com.yankaizhang.spring.webmvc.annotation.RequestParam;
+import com.yankaizhang.spring.webmvc.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,19 +37,20 @@ public class MyController {
     }
 
     @RequestMapping("/longLink")
-    public String getShortLink(@RequestParam("link") String longLink,
-                              HttpServletRequest request){
+    @ResponseBody
+    public Result getShortLink(@RequestParam("link") String longLink){
         if (!urlPattern.matcher(longLink).matches()){
-            request.setAttribute("shortLink", "生成失败");
-            return "index";
+            return Result.failed();
         }
         String shortLink = myService.getShortLink(longLink);
+        Result result;
         if (!StringUtils.isEmpty(shortLink)){
-            request.setAttribute("shortLink", baseSite + shortLink);
+            result = Result.success();
+            result.setData(baseSite + shortLink);
         }else{
-            request.setAttribute("shortLink", "生成失败，请检查输入链接是否合法");
+            result = Result.failed();
         }
-        return "index";
+        return result;
     }
 
     /**

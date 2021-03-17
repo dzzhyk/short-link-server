@@ -2,6 +2,7 @@ package com.yankaizhang.link.service.impl;
 
 import com.yankaizhang.link.service.MyService;
 import com.yankaizhang.spring.context.annotation.Service;
+import com.yankaizhang.spring.util.StringUtils;
 import org.apache.commons.codec.digest.MurmurHash2;
 
 import java.util.Map;
@@ -31,12 +32,17 @@ public class MyServiceImpl implements MyService {
         if (longLink == null) return null;
         int hash = MurmurHash2.hash32(longLink);
         String ans = intToBase62(hash);
-        // 如果发生了哈希冲突
-        while (cache.containsKey(ans)){
-            hash = MurmurHash2.hash32(ans);
-            ans = intToBase62(hash);
+        if (cache.containsKey(ans)){
+            String tempLongLink = cache.get(ans);
+            if (tempLongLink.equals(longLink)) {
+                // 如果发生了哈希冲突，使用开放地址法解决，知道找到一个位置hash不冲突
+                do {
+                    hash += 1;
+                    ans = intToBase62(hash);
+                }while(cache.containsKey(ans));
+                cache.put(ans, longLink);
+            }
         }
-        cache.put(ans, longLink);
         return ans;
     }
 
