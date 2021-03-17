@@ -40,9 +40,9 @@ public class MyServiceImpl implements MyService {
                     hash += 1;
                     ans = intToBase62(hash);
                 }while(cache.containsKey(ans));
-                cache.put(ans, longLink);
             }
         }
+        cache.put(ans, longLink);
         return ans;
     }
 
