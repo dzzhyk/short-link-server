@@ -44,7 +44,7 @@ public class MyController {
         if (!StringUtils.isEmpty(shortLink)){
             request.setAttribute("shortLink", baseSite + shortLink);
         }else{
-            request.setAttribute("shortLink", "生成失败");
+            request.setAttribute("shortLink", "生成失败，请检查输入链接是否合法");
         }
         return "index";
     }

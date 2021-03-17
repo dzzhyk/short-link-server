@@ -4,6 +4,6 @@
     <title>错误页面</title>
 </head>
 <body>
-    <h1 style="text-align: center">链接地址有误</h1>
+    <h1 style="text-align: center">链接地址错误</h1>
 </body>
 </html>

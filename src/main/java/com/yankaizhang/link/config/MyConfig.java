@@ -27,6 +27,9 @@ public class MyConfig {
         return Pattern.compile("[a-zA-z]+://[^\\s]*");
     }
 
+    /**
+     * 这里修改短链接基础地址
+     */
     @Bean
     public String baseSite(){
         return "http://localhost:8080/s?l=";
